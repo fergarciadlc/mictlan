@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="cepstrum"
               pluginFormats="buildStandalone,buildVST3">
   <MAINGROUP id="XsaXlG" name="mictlan">
+    <GROUP id="{D4020827-E81C-6D8F-1EBA-264404C71FBF}" name="DSP">
+      <FILE id="oAvago" name="Convolution.cpp" compile="1" resource="0" file="Source/Convolution.cpp"/>
+      <FILE id="VmT1LN" name="Convolution.h" compile="0" resource="0" file="Source/Convolution.h"/>
+    </GROUP>
     <GROUP id="{9766DDE0-1AF1-FA71-1167-0C7E7E705781}" name="Source">
       <FILE id="U3c0qA" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
