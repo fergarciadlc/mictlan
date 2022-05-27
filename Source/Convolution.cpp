@@ -16,19 +16,10 @@ Convolution::~Convolution() {}
 
 void Convolution::prepare(double inSampleRate, int inSamplesPerBlock, int inNumChannels)
 {
-    // load IR file from local wav
-    // GET PATH PARA IMPULSO
-    //************************************ DIRECTORY SEPARATORS ************************************//
-    #if JUCE_WINDOWS
-        static const juce::String directorySeparator = "\\";
-    #elif JUCE_MAC
-        static const juce::String directorySeparator = "/";
-    #endif
+    //// load IR file from local wav    
+    //juce::File IRFile = FileHandler.getIRFromIRFolder("Conic Long Echo Hall.wav");
+    //DBG(IRFile.getFullPathName());
 
-    auto impulsePath = (juce::File::getSpecialLocation(juce::File::userDesktopDirectory)).getFullPathName() + directorySeparator + "impulse.wav";
-    IRFile = juce::File(impulsePath);
-
-    // initialise spect
     juce::dsp::ProcessSpec spec;
     spec.sampleRate = inSampleRate;
     spec.maximumBlockSize = inSamplesPerBlock;
@@ -38,13 +29,22 @@ void Convolution::prepare(double inSampleRate, int inSamplesPerBlock, int inNumC
     conv.reset();
     conv.prepare(spec);
 
-    // load IR
-    conv.loadImpulseResponse(IRFile.getFullPathName(),
-        juce::dsp::Convolution::Stereo::no,
+    //// load IR from file
+    //conv.loadImpulseResponse(
+    //    IRFile.getFullPathName(),
+    //    juce::dsp::Convolution::Stereo::yes,
+    //    juce::dsp::Convolution::Trim::yes,
+    //    IRFile.getSize(),
+    //    juce::dsp::Convolution::Normalise::yes
+    //);
+    conv.loadImpulseResponse(
+        BinaryData::conic_long_echo_hall_wav,
+        BinaryData::conic_long_echo_hall_wavSize,
+        juce::dsp::Convolution::Stereo::yes,
         juce::dsp::Convolution::Trim::yes,
-        IRFile.getSize()
-    );
-
+        0, // request original size of IR
+        juce::dsp::Convolution::Normalise::yes
+      );
 
 }
 

@@ -10,6 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "FileHandler.h"
 
 class Convolution
 {
@@ -23,7 +24,7 @@ public:
     void process(juce::AudioBuffer<float> inBuffer);
 
 private:
-
+    FileHandler FileHandler;
     juce::dsp::Convolution conv;
     juce::File IRFile;
 

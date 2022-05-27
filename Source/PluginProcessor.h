@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "Convolution.h"
+#include "Distortion.h"
 
 //==============================================================================
 /**
@@ -54,8 +55,14 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    //==============================================================================
+    juce::AudioProcessorValueTreeState apvts;
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
+
 private:
     Convolution convolution;
+    Distortion distortion;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MictlanAudioProcessor)
 };

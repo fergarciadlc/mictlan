@@ -19,7 +19,7 @@ MictlanAudioProcessor::MictlanAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts(*this, nullptr, "parameters", createParameters())
 #endif
 {
 }
@@ -27,6 +27,25 @@ MictlanAudioProcessor::MictlanAudioProcessor()
 MictlanAudioProcessor::~MictlanAudioProcessor()
 {
 }
+
+//==============================================================================
+juce::AudioProcessorValueTreeState::ParameterLayout MictlanAudioProcessor::createParameters()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout parameters;
+
+    parameters.add(std::make_unique<juce::AudioParameterFloat>("dist_gain",
+                                                                "dist_gain",
+                                                                1.0f,
+                                                                100.0f,
+                                                                50.0f));
+    parameters.add(std::make_unique<juce::AudioParameterInt>("dist_selection",
+                                                             "distortion_selection",
+                                                             0, 
+                                                             1, 
+                                                             0));
+    return parameters;
+}
+
 
 //==============================================================================
 const juce::String MictlanAudioProcessor::getName() const
@@ -139,7 +158,12 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    convolution.process(buffer);
+    //convolution.process(buffer);
+    distortion.process(
+        buffer, 
+        apvts.getRawParameterValue("dist_gain")->load(),
+        apvts.getRawParameterValue("dist_selection")->load()
+    );
 }
 
 //==============================================================================
