@@ -67,6 +67,8 @@ private:
     Filters highPassFilter;
     Filters lowPassFilter;
 
+    FIRFilter lowpassFIR;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MictlanAudioProcessor)
 };

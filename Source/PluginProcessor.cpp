@@ -33,16 +33,46 @@ juce::AudioProcessorValueTreeState::ParameterLayout MictlanAudioProcessor::creat
 {
     juce::AudioProcessorValueTreeState::ParameterLayout parameters;
 
-    parameters.add(std::make_unique<juce::AudioParameterFloat>("dist_gain",
-                                                                "dist_gain",
-                                                                1.0f,
-                                                                100.0f,
-                                                                50.0f));
-    parameters.add(std::make_unique<juce::AudioParameterInt>("dist_selection",
-                                                             "distortion_selection",
-                                                             0, 
-                                                             1, 
-                                                             0));
+    parameters.add(std::make_unique<juce::AudioParameterFloat>(
+        "dist_gain",
+        "dist_gain",
+        1.0f,
+        100.0f,
+        50.0f));
+    parameters.add(std::make_unique<juce::AudioParameterInt>(
+        "dist_selection",
+        "distortion_selection",
+        0, 
+        1, 
+        0));
+
+    parameters.add(std::make_unique<juce::AudioParameterFloat>(
+        "lp_cutoff",
+        "lp_cutoff",
+        20.0f,
+        20000.0f,
+        50.0f));
+
+    parameters.add(std::make_unique<juce::AudioParameterFloat>(
+        "hp_cutoff",
+        "hp_cutoff",
+        20.0f,
+        20000.0f,
+        50.0f));
+
+    parameters.add(std::make_unique<juce::AudioParameterFloat>(
+        "fir_lp_cutoff",
+        "fir_lp_cutoff",
+        20.0f,
+        20000.0f,
+        1000.0f));
+    parameters.add(std::make_unique<juce::AudioParameterInt>(
+        "fir_lp_order",
+        "fir_lp_order",
+        10,
+        100,
+        21));
+
     return parameters;
 }
 
@@ -125,6 +155,12 @@ void MictlanAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
                            getTotalNumInputChannels(),
                            lowPassFilter.highPassType,
                            1000.0f);
+
+    lowpassFIR.prepare(sampleRate,
+                       samplesPerBlock,
+                       getTotalNumInputChannels(),
+                       1000.0f, // not working with apvts
+                       21);
 }
 
 void MictlanAudioProcessor::releaseResources()
@@ -168,14 +204,20 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    //convolution.process(buffer);
+    //convolution.process(buffer); // ok, TODO: select IR, DryWet
     //distortion.process(
     //    buffer, 
     //    apvts.getRawParameterValue("dist_gain")->load(),
     //    apvts.getRawParameterValue("dist_selection")->load()
-    //);
-    lowPassFilter.process(buffer);
-    highPassFilter.process(buffer);
+    //); // ok
+    //lowPassFilter.setCutoffFrequency(100.0f);
+    //lowPassFilter.process(buffer); // ok TODO: cambio de cutoff con apvts
+    //highPassFilter.process(buffer); // ok TODO: cambio de cutoff con apvts
+    
+    lowpassFIR.updateFilter(apvts.getRawParameterValue("fir_lp_cutoff")->load(),
+                            apvts.getRawParameterValue("fir_lp_order")->load());
+    lowpassFIR.process(buffer);
+
 }
 
 //==============================================================================
