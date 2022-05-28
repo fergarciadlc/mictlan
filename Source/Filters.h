@@ -25,7 +25,7 @@ public:
                  float cutoffFrequency);
     void process(juce::AudioBuffer<float> inBuffer);
 
-    void updateFilter();
+    void updateFilter(float cutoffFrequency);
 
     juce::dsp::StateVariableTPTFilterType lowPassType;
     juce::dsp::StateVariableTPTFilterType highPassType;

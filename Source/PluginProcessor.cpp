@@ -51,14 +51,14 @@ juce::AudioProcessorValueTreeState::ParameterLayout MictlanAudioProcessor::creat
         "lp_cutoff",
         20.0f,
         20000.0f,
-        50.0f));
+        1000.0f));
 
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
         "hp_cutoff",
         "hp_cutoff",
         20.0f,
         20000.0f,
-        50.0f));
+        1000.0f));
 
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
         "fir_lp_cutoff",
@@ -210,13 +210,18 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     //    apvts.getRawParameterValue("dist_gain")->load(),
     //    apvts.getRawParameterValue("dist_selection")->load()
     //); // ok
-    //lowPassFilter.setCutoffFrequency(100.0f);
-    //lowPassFilter.process(buffer); // ok TODO: cambio de cutoff con apvts
-    //highPassFilter.process(buffer); // ok TODO: cambio de cutoff con apvts
+
+    // OK :D 
+    lowPassFilter.updateFilter(apvts.getRawParameterValue("lp_cutoff")->load()); // TODO: como en log?
+    lowPassFilter.process(buffer);
+
+    highPassFilter.updateFilter(apvts.getRawParameterValue("hp_cutoff")->load()); // TODO: como en log?
+    highPassFilter.process(buffer);
     
-    lowpassFIR.updateFilter(apvts.getRawParameterValue("fir_lp_cutoff")->load(),
-                            apvts.getRawParameterValue("fir_lp_order")->load());
-    lowpassFIR.process(buffer);
+    // OK:
+    //lowpassFIR.updateFilter(apvts.getRawParameterValue("fir_lp_cutoff")->load(), // TODO: como en log?
+    //                        apvts.getRawParameterValue("fir_lp_order")->load()); // bug: cuando cambio rapido explota
+    //lowpassFIR.process(buffer);
 
 }
 

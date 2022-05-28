@@ -23,25 +23,30 @@ Filters::~Filters(){}
 //    genericFilter.reset();
 //}
 
-void Filters::prepare(double inSampleRate, 
-                      int inSamplesPerBlock, 
-                      int inNumChannels, 
-                      juce::dsp::StateVariableTPTFilterType filterType, 
-                      float cutoffFrequency)
+void Filters::prepare(double inSampleRate,
+    int inSamplesPerBlock,
+    int inNumChannels,
+    juce::dsp::StateVariableTPTFilterType filterType,
+    float cutoffFrequency)
 {
     juce::dsp::ProcessSpec spec{};
     spec.sampleRate = inSampleRate;
     spec.maximumBlockSize = inSamplesPerBlock;
     spec.numChannels = inNumChannels;
 
+    //genericFilter.prepare(spec);
+    //genericFilter.setCutoffFrequency(cutoffFrequency);
+    //genericFilter.setType(filterType);
+    genericFilter.reset();
+    updateFilter(cutoffFrequency);
     genericFilter.prepare(spec);
     genericFilter.setCutoffFrequency(cutoffFrequency);
     genericFilter.setType(filterType);
 }
 
-void Filters::updateFilter()
+void Filters::updateFilter(float cutoffFrequency)
 {
-    
+    genericFilter.setCutoffFrequency(cutoffFrequency);
 }
 
 void Filters::process(juce::AudioBuffer<float> inBuffer)
@@ -52,6 +57,7 @@ void Filters::process(juce::AudioBuffer<float> inBuffer)
 }
 
 // =======================================================
+
 FIRFilter::FIRFilter() {}
 FIRFilter::~FIRFilter() {}
 
