@@ -48,8 +48,9 @@ void Convolution::prepare(double inSampleRate, int inSamplesPerBlock, int inNumC
 
 }
 
-void Convolution::process(juce::AudioBuffer<float> inBuffer)
+void Convolution::process(juce::AudioBuffer<float> inBuffer, bool isBypassed)
 {
+    if (isBypassed) { return; }
     juce::dsp::AudioBlock<float> block(inBuffer);
     juce::dsp::ProcessContextReplacing<float> context(block);
     conv.process(context);

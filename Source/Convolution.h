@@ -21,7 +21,7 @@ public:
 
     void prepare(double inSampleRate, int inSamplesPerBlock, int inNumChannels);
 
-    void process(juce::AudioBuffer<float> inBuffer);
+    void process(juce::AudioBuffer<float> inBuffer, bool isBypassed);
 
 private:
     FileHandler FileHandler;

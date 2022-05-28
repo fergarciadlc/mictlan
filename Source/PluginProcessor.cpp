@@ -33,6 +33,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout MictlanAudioProcessor::creat
 {
     juce::AudioProcessorValueTreeState::ParameterLayout parameters;
 
+    parameters.add(std::make_unique<juce::AudioParameterBool>(
+        "conv_bypass",
+        "conv_bypass",
+        false));
+
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
         "dist_gain",
         "dist_gain",
@@ -204,7 +209,7 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    //convolution.process(buffer); // ok, TODO: select IR, DryWet
+    convolution.process(buffer, apvts.getRawParameterValue("conv_bypass")->load()); // ok, TODO: select IR, DryWet
     //distortion.process(
     //    buffer, 
     //    apvts.getRawParameterValue("dist_gain")->load(),
