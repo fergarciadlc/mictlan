@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="d1V4GR" name="mictlan" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="cepstrum"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="Cepstrum"
               pluginFormats="buildStandalone,buildVST3">
   <MAINGROUP id="XsaXlG" name="mictlan">
     <GROUP id="{A274DC75-A972-BC03-762F-141E0F67E745}" name="ToolBox">
@@ -20,6 +20,8 @@
       <FILE id="ZWtUUn" name="Distortion.h" compile="0" resource="0" file="Source/Distortion.h"/>
       <FILE id="TPu9kb" name="DryWet.cpp" compile="1" resource="0" file="Source/DryWet.cpp"/>
       <FILE id="IYZIia" name="DryWet.h" compile="0" resource="0" file="Source/DryWet.h"/>
+      <FILE id="HHcvMw" name="Filters.cpp" compile="1" resource="0" file="Source/Filters.cpp"/>
+      <FILE id="H87s1z" name="Filters.h" compile="0" resource="0" file="Source/Filters.h"/>
     </GROUP>
     <GROUP id="{9766DDE0-1AF1-FA71-1167-0C7E7E705781}" name="Source">
       <FILE id="U3c0qA" name="PluginProcessor.cpp" compile="1" resource="0"

@@ -115,6 +115,16 @@ void MictlanAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     convolution.prepare(sampleRate, samplesPerBlock, getTotalNumInputChannels());
+    lowPassFilter.prepare(sampleRate, 
+                          samplesPerBlock, 
+                          getTotalNumInputChannels(), 
+                          lowPassFilter.lowPassType, 
+                          1000.0f);
+    highPassFilter.prepare(sampleRate,
+                           samplesPerBlock,
+                           getTotalNumInputChannels(),
+                           lowPassFilter.highPassType,
+                           1000.0f);
 }
 
 void MictlanAudioProcessor::releaseResources()
@@ -159,11 +169,13 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
         buffer.clear (i, 0, buffer.getNumSamples());
 
     //convolution.process(buffer);
-    distortion.process(
-        buffer, 
-        apvts.getRawParameterValue("dist_gain")->load(),
-        apvts.getRawParameterValue("dist_selection")->load()
-    );
+    //distortion.process(
+    //    buffer, 
+    //    apvts.getRawParameterValue("dist_gain")->load(),
+    //    apvts.getRawParameterValue("dist_selection")->load()
+    //);
+    lowPassFilter.process(buffer);
+    highPassFilter.process(buffer);
 }
 
 //==============================================================================

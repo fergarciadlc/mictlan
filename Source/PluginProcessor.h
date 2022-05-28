@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "Convolution.h"
 #include "Distortion.h"
+#include "Filters.h"
 
 //==============================================================================
 /**
@@ -62,6 +63,9 @@ public:
 private:
     Convolution convolution;
     Distortion distortion;
+
+    Filters highPassFilter;
+    Filters lowPassFilter;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MictlanAudioProcessor)
