@@ -17,6 +17,6 @@ public:
     
     Distortion();
     ~Distortion();
-    void process(juce::AudioBuffer<float> inBuffer, float inGain, int inType);
+    void process(juce::AudioBuffer<float> inBuffer, float inGain, int inType, bool isBypassed);
     
 };

@@ -37,6 +37,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout MictlanAudioProcessor::creat
         "conv_bypass",
         "conv_bypass",
         false));
+    parameters.add(std::make_unique<juce::AudioParameterBool>(
+        "dist_bypass",
+        "dist_bypass",
+        false));
 
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
         "dist_gain",
@@ -210,11 +214,13 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
         buffer.clear (i, 0, buffer.getNumSamples());
 
     convolution.process(buffer, apvts.getRawParameterValue("conv_bypass")->load()); // ok, TODO: select IR, DryWet
-    //distortion.process(
-    //    buffer, 
-    //    apvts.getRawParameterValue("dist_gain")->load(),
-    //    apvts.getRawParameterValue("dist_selection")->load()
-    //); // ok
+
+    distortion.process(
+        buffer, 
+        apvts.getRawParameterValue("dist_gain")->load(),
+        apvts.getRawParameterValue("dist_selection")->load(),
+        apvts.getRawParameterValue("dist_bypass")->load()
+    ); // ok
 
     // OK :D 
     lowPassFilter.updateFilter(apvts.getRawParameterValue("lp_cutoff")->load()); // TODO: como en log?
