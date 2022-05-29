@@ -15,7 +15,7 @@ MictlanAudioProcessorEditor::MictlanAudioProcessorEditor (MictlanAudioProcessor&
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (500, 300);
 }
 
 MictlanAudioProcessorEditor::~MictlanAudioProcessorEditor()
@@ -29,8 +29,8 @@ void MictlanAudioProcessorEditor::paint (juce::Graphics& g)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
     g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.setFont (20.0f);
+    g.drawFittedText ("MICTLAN", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void MictlanAudioProcessorEditor::resized()

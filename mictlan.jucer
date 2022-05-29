@@ -22,6 +22,8 @@
       <FILE id="IYZIia" name="DryWet.h" compile="0" resource="0" file="Source/DryWet.h"/>
       <FILE id="HHcvMw" name="Filters.cpp" compile="1" resource="0" file="Source/Filters.cpp"/>
       <FILE id="H87s1z" name="Filters.h" compile="0" resource="0" file="Source/Filters.h"/>
+      <FILE id="x7Q2Rz" name="Reverb.cpp" compile="1" resource="0" file="Source/Reverb.cpp"/>
+      <FILE id="VQ9LQx" name="Reverb.h" compile="0" resource="0" file="Source/Reverb.h"/>
     </GROUP>
     <GROUP id="{9766DDE0-1AF1-FA71-1167-0C7E7E705781}" name="Source">
       <FILE id="U3c0qA" name="PluginProcessor.cpp" compile="1" resource="0"

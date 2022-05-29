@@ -58,15 +58,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout MictlanAudioProcessor::creat
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
         "lp_cutoff",
         "lp_cutoff",
-        20.0f,
-        20000.0f,
-        1000.0f));
+        juce::NormalisableRange<float>(20.0f, 20000.0f, 1.0f, 0.23f),
+        1000.0f));        
 
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
         "hp_cutoff",
         "hp_cutoff",
-        20.0f,
-        20000.0f,
+        juce::NormalisableRange<float>(20.0f, 20000.0f, 1.0f, 0.3f),
         1000.0f));
 
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
@@ -81,6 +79,19 @@ juce::AudioProcessorValueTreeState::ParameterLayout MictlanAudioProcessor::creat
         10,
         100,
         21));
+
+    parameters.add(std::make_unique<juce::AudioParameterFloat>(
+        "rb_room_size",
+        "rb_room_size",
+        juce::NormalisableRange<float>(0.0f, 1.0f),
+        0.5f
+        ));
+    parameters.add(std::make_unique<juce::AudioParameterFloat>(
+        "rb_damping",
+        "rb_damping",
+        juce::NormalisableRange<float>(0.0f, 1.0f),
+        0.5f
+        ));
 
     return parameters;
 }
@@ -170,6 +181,8 @@ void MictlanAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
                        getTotalNumInputChannels(),
                        1000.0f, // not working with apvts
                        21);
+
+    juceReverb.prepare(sampleRate, samplesPerBlock, getTotalNumInputChannels());
 }
 
 void MictlanAudioProcessor::releaseResources()
@@ -213,8 +226,12 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    convolution.process(buffer, apvts.getRawParameterValue("conv_bypass")->load()); // ok, TODO: select IR, DryWet
+    // ok, TODO: select IR, DryWet,
+    // TODO: quitar dependency injection
+    // TODO enum types para IR
+    convolution.process(buffer, apvts.getRawParameterValue("conv_bypass")->load()); 
 
+    //
     distortion.process(
         buffer, 
         apvts.getRawParameterValue("dist_gain")->load(),
@@ -229,10 +246,14 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     highPassFilter.updateFilter(apvts.getRawParameterValue("hp_cutoff")->load()); // TODO: como en log?
     highPassFilter.process(buffer);
     
-    // OK:
+    //// OK:
     //lowpassFIR.updateFilter(apvts.getRawParameterValue("fir_lp_cutoff")->load(), // TODO: como en log?
     //                        apvts.getRawParameterValue("fir_lp_order")->load()); // bug: cuando cambio rapido explota
     //lowpassFIR.process(buffer);
+
+    juceReverb.updateReverb(apvts.getRawParameterValue("rb_room_size")->load(),
+                            apvts.getRawParameterValue("rb_damping")->load());
+    juceReverb.process(buffer);
 
 }
 

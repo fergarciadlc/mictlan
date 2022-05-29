@@ -12,6 +12,7 @@
 #include "Convolution.h"
 #include "Distortion.h"
 #include "Filters.h"
+#include "Reverb.h"
 
 //==============================================================================
 /**
@@ -68,6 +69,8 @@ private:
     Filters lowPassFilter;
 
     FIRFilter lowpassFIR;
+
+    JuceReverb juceReverb;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MictlanAudioProcessor)
