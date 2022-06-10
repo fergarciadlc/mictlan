@@ -4,28 +4,40 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="Cepstrum"
               pluginFormats="buildStandalone,buildVST3">
   <MAINGROUP id="XsaXlG" name="mictlan">
-    <GROUP id="{A274DC75-A972-BC03-762F-141E0F67E745}" name="ToolBox">
-      <FILE id="FB1MXU" name="FileHandler.cpp" compile="1" resource="0" file="Source/FileHandler.cpp"/>
-      <FILE id="pByd0L" name="FileHandler.h" compile="0" resource="0" file="Source/FileHandler.h"/>
-    </GROUP>
-    <GROUP id="{D4020827-E81C-6D8F-1EBA-264404C71FBF}" name="DSP">
-      <GROUP id="{CB50AC98-1FA9-B6F8-0C32-362AB9925D82}" name="IR">
-        <FILE id="zH8FkP" name="conic_long_echo_hall.wav" compile="0" resource="1"
-              file="IR/conic_long_echo_hall.wav"/>
-        <FILE id="w6jL0k" name="deep_space.wav" compile="0" resource="1" file="IR/deep_space.wav"/>
-      </GROUP>
-      <FILE id="oAvago" name="Convolution.cpp" compile="1" resource="0" file="Source/Convolution.cpp"/>
-      <FILE id="VmT1LN" name="Convolution.h" compile="0" resource="0" file="Source/Convolution.h"/>
-      <FILE id="Exw2Lw" name="Distortion.cpp" compile="1" resource="0" file="Source/Distortion.cpp"/>
-      <FILE id="ZWtUUn" name="Distortion.h" compile="0" resource="0" file="Source/Distortion.h"/>
-      <FILE id="TPu9kb" name="DryWet.cpp" compile="1" resource="0" file="Source/DryWet.cpp"/>
-      <FILE id="IYZIia" name="DryWet.h" compile="0" resource="0" file="Source/DryWet.h"/>
-      <FILE id="HHcvMw" name="Filters.cpp" compile="1" resource="0" file="Source/Filters.cpp"/>
-      <FILE id="H87s1z" name="Filters.h" compile="0" resource="0" file="Source/Filters.h"/>
-      <FILE id="x7Q2Rz" name="Reverb.cpp" compile="1" resource="0" file="Source/Reverb.cpp"/>
-      <FILE id="VQ9LQx" name="Reverb.h" compile="0" resource="0" file="Source/Reverb.h"/>
-    </GROUP>
     <GROUP id="{9766DDE0-1AF1-FA71-1167-0C7E7E705781}" name="Source">
+      <GROUP id="{A274DC75-A972-BC03-762F-141E0F67E745}" name="ToolBox">
+        <FILE id="FB1MXU" name="FileHandler.cpp" compile="1" resource="0" file="Source/FileHandler.cpp"/>
+        <FILE id="pByd0L" name="FileHandler.h" compile="0" resource="0" file="Source/FileHandler.h"/>
+        <FILE id="jQUjRi" name="Mapper.cpp" compile="1" resource="0" file="Source/Mapper.cpp"/>
+        <FILE id="UyR3vD" name="Mapper.h" compile="0" resource="0" file="Source/Mapper.h"/>
+        <FILE id="n6IsiX" name="MapperDistortion.cpp" compile="1" resource="0"
+              file="Source/MapperDistortion.cpp"/>
+        <FILE id="j0D5rr" name="MapperDistortion.h" compile="0" resource="0"
+              file="Source/MapperDistortion.h"/>
+        <FILE id="U8h75S" name="MapperFilters.cpp" compile="1" resource="0"
+              file="Source/MapperFilters.cpp"/>
+        <FILE id="PX8uyz" name="MapperFilters.h" compile="0" resource="0" file="Source/MapperFilters.h"/>
+        <FILE id="LOWVTW" name="MapperReverb.cpp" compile="1" resource="0"
+              file="Source/MapperReverb.cpp"/>
+        <FILE id="YH2zTI" name="MapperReverb.h" compile="0" resource="0" file="Source/MapperReverb.h"/>
+      </GROUP>
+      <GROUP id="{D4020827-E81C-6D8F-1EBA-264404C71FBF}" name="DSP">
+        <GROUP id="{CB50AC98-1FA9-B6F8-0C32-362AB9925D82}" name="IR">
+          <FILE id="zH8FkP" name="conic_long_echo_hall.wav" compile="0" resource="1"
+                file="IR/conic_long_echo_hall.wav"/>
+          <FILE id="w6jL0k" name="deep_space.wav" compile="0" resource="1" file="IR/deep_space.wav"/>
+        </GROUP>
+        <FILE id="oAvago" name="Convolution.cpp" compile="1" resource="0" file="Source/Convolution.cpp"/>
+        <FILE id="VmT1LN" name="Convolution.h" compile="0" resource="0" file="Source/Convolution.h"/>
+        <FILE id="Exw2Lw" name="Distortion.cpp" compile="1" resource="0" file="Source/Distortion.cpp"/>
+        <FILE id="ZWtUUn" name="Distortion.h" compile="0" resource="0" file="Source/Distortion.h"/>
+        <FILE id="TPu9kb" name="DryWet.cpp" compile="1" resource="0" file="Source/DryWet.cpp"/>
+        <FILE id="IYZIia" name="DryWet.h" compile="0" resource="0" file="Source/DryWet.h"/>
+        <FILE id="HHcvMw" name="Filters.cpp" compile="1" resource="0" file="Source/Filters.cpp"/>
+        <FILE id="H87s1z" name="Filters.h" compile="0" resource="0" file="Source/Filters.h"/>
+        <FILE id="x7Q2Rz" name="Reverb.cpp" compile="1" resource="0" file="Source/Reverb.cpp"/>
+        <FILE id="VQ9LQx" name="Reverb.h" compile="0" resource="0" file="Source/Reverb.h"/>
+      </GROUP>
       <FILE id="U3c0qA" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="wPyPIn" name="PluginProcessor.h" compile="0" resource="0"

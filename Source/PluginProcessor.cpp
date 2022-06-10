@@ -33,52 +33,40 @@ juce::AudioProcessorValueTreeState::ParameterLayout MictlanAudioProcessor::creat
 {
     juce::AudioProcessorValueTreeState::ParameterLayout parameters;
 
-    parameters.add(std::make_unique<juce::AudioParameterBool>(
-        "conv_bypass",
-        "conv_bypass",
-        false));
-    parameters.add(std::make_unique<juce::AudioParameterBool>(
-        "dist_bypass",
-        "dist_bypass",
-        false));
+    //parameters.add(std::make_unique<juce::AudioParameterBool>(
+    //    "conv_bypass",
+    //    "conv_bypass",
+    //    false));
+    //parameters.add(std::make_unique<juce::AudioParameterBool>(
+    //    "dist_bypass",
+    //    "dist_bypass",
+    //    false));
 
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
         "dist_gain",
         "dist_gain",
-        1.0f,
+        10.0f,
         100.0f,
-        50.0f));
-    parameters.add(std::make_unique<juce::AudioParameterInt>(
-        "dist_selection",
-        "distortion_selection",
-        0, 
-        1, 
-        0));
+        10.0f));
+    //parameters.add(std::make_unique<juce::AudioParameterInt>(
+    //    "dist_selection",
+    //    "distortion_selection",
+    //    0, 
+    //    1, 
+    //    0));
 
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
         "lp_cutoff",
         "lp_cutoff",
         juce::NormalisableRange<float>(20.0f, 20000.0f, 1.0f, 0.23f),
-        1000.0f));        
+        20000.0f));        
 
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
         "hp_cutoff",
         "hp_cutoff",
         juce::NormalisableRange<float>(20.0f, 20000.0f, 1.0f, 0.3f),
-        1000.0f));
+        20.0f));
 
-    parameters.add(std::make_unique<juce::AudioParameterFloat>(
-        "fir_lp_cutoff",
-        "fir_lp_cutoff",
-        20.0f,
-        20000.0f,
-        1000.0f));
-    parameters.add(std::make_unique<juce::AudioParameterInt>(
-        "fir_lp_order",
-        "fir_lp_order",
-        10,
-        100,
-        21));
 
     parameters.add(std::make_unique<juce::AudioParameterFloat>(
         "rb_room_size",
@@ -92,6 +80,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout MictlanAudioProcessor::creat
         juce::NormalisableRange<float>(0.0f, 1.0f),
         0.5f
         ));
+
+    parameters.add(std::make_unique<juce::AudioParameterFloat>(
+        "tension",
+        "tension",
+        0.0f,
+        100.0f,
+        0.0f));
 
     return parameters;
 }
@@ -164,7 +159,7 @@ void MictlanAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    convolution.prepare(sampleRate, samplesPerBlock, getTotalNumInputChannels());
+    //convolution.prepare(sampleRate, samplesPerBlock, getTotalNumInputChannels());
     lowPassFilter.prepare(sampleRate, 
                           samplesPerBlock, 
                           getTotalNumInputChannels(), 
@@ -175,12 +170,6 @@ void MictlanAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
                            getTotalNumInputChannels(),
                            lowPassFilter.highPassType,
                            1000.0f);
-
-    lowpassFIR.prepare(sampleRate,
-                       samplesPerBlock,
-                       getTotalNumInputChannels(),
-                       1000.0f, // not working with apvts
-                       21);
 
     juceReverb.prepare(sampleRate, samplesPerBlock, getTotalNumInputChannels());
 }
@@ -226,31 +215,28 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // ok, TODO: select IR, DryWet,
-    // TODO: quitar dependency injection
-    // TODO enum types para IR
-    convolution.process(buffer, apvts.getRawParameterValue("conv_bypass")->load()); 
+    float tension_value = apvts.getRawParameterValue("tension")->load();
+    float distValue = valueMapper.mapDistortion(tension_value, "normal");
+    float hpFreqValue = valueMapper.mapLPFilter(tension_value, "normal");
 
-    //
+    //convolution.process(buffer, apvts.getRawParameterValue("conv_bypass")->load()); 
     distortion.process(
         buffer, 
-        apvts.getRawParameterValue("dist_gain")->load(),
-        apvts.getRawParameterValue("dist_selection")->load(),
-        apvts.getRawParameterValue("dist_bypass")->load()
+        //apvts.getRawParameterValue("dist_gain")->load(),
+        distValue,
+        //apvts.getRawParameterValue("dist_selection")->load(),
+        0,
+        //apvts.getRawParameterValue("dist_bypass")->load()
+        false
     ); // ok
 
     // OK :D 
-    lowPassFilter.updateFilter(apvts.getRawParameterValue("lp_cutoff")->load()); // TODO: como en log?
+    lowPassFilter.updateFilter(20000.0f);
     lowPassFilter.process(buffer);
 
-    highPassFilter.updateFilter(apvts.getRawParameterValue("hp_cutoff")->load()); // TODO: como en log?
+    highPassFilter.updateFilter(hpFreqValue);
     highPassFilter.process(buffer);
     
-    //// OK:
-    //lowpassFIR.updateFilter(apvts.getRawParameterValue("fir_lp_cutoff")->load(), // TODO: como en log?
-    //                        apvts.getRawParameterValue("fir_lp_order")->load()); // bug: cuando cambio rapido explota
-    //lowpassFIR.process(buffer);
-
     juceReverb.updateReverb(apvts.getRawParameterValue("rb_room_size")->load(),
                             apvts.getRawParameterValue("rb_damping")->load());
     juceReverb.process(buffer);

@@ -13,6 +13,7 @@
 #include "Distortion.h"
 #include "Filters.h"
 #include "Reverb.h"
+#include "Mapper.h"
 
 //==============================================================================
 /**
@@ -68,9 +69,9 @@ private:
     Filters highPassFilter;
     Filters lowPassFilter;
 
-    FIRFilter lowpassFIR;
-
     JuceReverb juceReverb;
+
+    ValueMapper valueMapper;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MictlanAudioProcessor)
