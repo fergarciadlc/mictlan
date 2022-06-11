@@ -13,13 +13,16 @@
 MictlanAudioProcessorEditor::MictlanAudioProcessorEditor (MictlanAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+    slider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    slider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, false, 0, 0);
+    slider.setLookAndFeel(&lookAndFeel);
+    addAndMakeVisible(slider);
     setSize (500, 300);
 }
 
 MictlanAudioProcessorEditor::~MictlanAudioProcessorEditor()
 {
+    slider.setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -35,6 +38,5 @@ void MictlanAudioProcessorEditor::paint (juce::Graphics& g)
 
 void MictlanAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    slider.setBoundsRelative(0.5 - 0.2f, 0.5 - 0.2f, 0.4f, 0.4f);
 }

@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "Knob.h"
 
 //==============================================================================
 /**
@@ -28,6 +29,9 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     MictlanAudioProcessor& audioProcessor;
+
+    juce::Slider slider;
+    Knob_LookAndFeel lookAndFeel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MictlanAudioProcessorEditor)
 };
