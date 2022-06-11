@@ -218,6 +218,7 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     float tension_value = apvts.getRawParameterValue("tension")->load();
     float distValue = valueMapper.mapDistortion(tension_value, "normal");
     float hpFreqValue = valueMapper.mapLPFilter(tension_value, "normal");
+    float rbRoomSize = valueMapper.mapReverbRoomSize(tension_value, "normal");
 
     //convolution.process(buffer, apvts.getRawParameterValue("conv_bypass")->load()); 
     distortion.process(
@@ -237,7 +238,7 @@ void MictlanAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     highPassFilter.updateFilter(hpFreqValue);
     highPassFilter.process(buffer);
     
-    juceReverb.updateReverb(apvts.getRawParameterValue("rb_room_size")->load(),
+    juceReverb.updateReverb(rbRoomSize,
                             apvts.getRawParameterValue("rb_damping")->load());
     juceReverb.process(buffer);
 

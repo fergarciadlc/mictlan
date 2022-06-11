@@ -33,5 +33,7 @@ private:
     juce::Slider slider;
     Knob_LookAndFeel lookAndFeel;
 
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachment;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MictlanAudioProcessorEditor)
 };

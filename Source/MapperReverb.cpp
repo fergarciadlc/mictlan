@@ -12,7 +12,7 @@
 
 float ReverbMapper::normalMapRoomSize(float inValue)
 {
-    return 1.0f * inValue;
+    return 1.0f * inValue / 100.0f;
 }
 
 float ReverbMapper::normalMapDamping(float inValue)

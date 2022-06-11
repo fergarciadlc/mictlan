@@ -13,8 +13,7 @@
 Knob_LookAndFeel::Knob_LookAndFeel()
 {
     // ROTAR IMAGEN
-    knobImage = juce::ImageCache::getFromMemory(BinaryData::knobOne_png, BinaryData::knobOne_pngSize);
-    
+    knobImage = juce::ImageCache::getFromMemory(BinaryData::knobThree_png, BinaryData::knobThree_pngSize);
     // FILM STRIP
     //knobImage = juce::ImageCache::getFromMemory(BinaryData::knobTwo_png, BinaryData::knobTwo_pngSize);
 }

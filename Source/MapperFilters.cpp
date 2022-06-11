@@ -30,7 +30,7 @@ float LPFilterMapper::normalMap(float inValue)
     //return juce::jmap(inValue, 0.0f, 100.0f, 20.0f, 20000.0f);
     //DBG("lagspace");
     int log_space_point = static_cast<int>(inValue);
-    double logSpaceValue = logspace(20.0f, 4000.0f, log_space_point, 100);
+    double logSpaceValue = logspace(20.0f, 3500.0f, log_space_point, 100);
     return static_cast<float>(logSpaceValue);
 }
 

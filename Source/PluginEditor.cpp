@@ -13,6 +13,7 @@
 MictlanAudioProcessorEditor::MictlanAudioProcessorEditor (MictlanAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
+    sliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "tension", slider);
     slider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     slider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, false, 0, 0);
     slider.setLookAndFeel(&lookAndFeel);
