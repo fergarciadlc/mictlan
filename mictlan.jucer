@@ -7,6 +7,8 @@
     <GROUP id="{9766DDE0-1AF1-FA71-1167-0C7E7E705781}" name="Source">
       <GROUP id="{AA3A6756-5100-0763-0E2F-832466BF6B63}" name="GUI">
         <GROUP id="{75F485BB-5192-B6C7-EAC8-119E734D934F}" name="Assets">
+          <FILE id="txbZ8l" name="bg1.png" compile="0" resource="1" file="Assets/bg1.png"/>
+          <FILE id="QdUafs" name="bg2.png" compile="0" resource="1" file="Assets/bg2.png"/>
           <FILE id="lwp2Io" name="knobOne.png" compile="0" resource="1" file="Assets/knobOne.png"/>
           <FILE id="Z2zo1q" name="knobThree.png" compile="0" resource="1" file="Assets/knobThree.png"/>
           <FILE id="PdhL35" name="knobTwo.png" compile="0" resource="1" file="Assets/knobTwo.png"/>
